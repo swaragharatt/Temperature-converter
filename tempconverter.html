@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Temperature Converter</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: #121212;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .converter {
+      background: #1e1e1e;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 0 30px rgba(0, 255, 200, 0.2);
+      width: 340px;
+      text-align: center;
+      border: 1px solid #00ffc3;
+    }
+
+    .converter h2 {
+      margin-bottom: 10px;
+      color: #00ffc3;
+      text-shadow: 0 0 5px #00ffc3;
+    }
+
+    .converter p {
+      font-size: 14px;
+      color: #ccc;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      margin-bottom: 5px;
+      font-weight: 500;
+      color: #ddd;
+      text-align: left;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #00ffc3;
+      border-radius: 8px;
+      font-size: 16px;
+      background-color: #2a2a2a;
+      color: #fff;
+    }
+
+    input::placeholder {
+      color: #bbb;
+    }
+
+    select {
+      cursor: pointer;
+    }
+
+    .result {
+      font-size: 20px;
+      margin-top: 20px;
+      font-weight: bold;
+      color: #00ffc3;
+      text-shadow: 0 0 5px #00ffc3;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: #00ffc3;
+      box-shadow: 0 0 8px #00ffc3;
+    }
+  </style>
+</head>
+<body>
+  <div class="converter">
+    <h2>Temperature Converter</h2>
+    <label for="tempInput">Temperature Value</label>
+    <input type="number" id="tempInput" placeholder="Enter temperature" />
+
+    <label for="fromUnit">Convert From</label>
+    <select id="fromUnit">
+      <option value="Celsius">Celsius (°C)</option>
+      <option value="Fahrenheit">Fahrenheit (°F)</option>
+      <option value="Kelvin">Kelvin (K)</option>
+    </select>
+
+    <label for="toUnit">Convert To</label>
+    <select id="toUnit">
+      <option value="Celsius">Celsius (°C)</option>
+      <option value="Fahrenheit">Fahrenheit (°F)</option>
+      <option value="Kelvin">Kelvin (K)</option>
+    </select>
+
+    <div class="result" id="result">Result: --</div>
+  </div>
+
+  <script>
+    const tempInput = document.getElementById("tempInput");
+    const fromUnit = document.getElementById("fromUnit");
+    const toUnit = document.getElementById("toUnit");
+    const result = document.getElementById("result");
+
+    function convertTemperature() {
+      let temp = parseFloat(tempInput.value);
+      let from = fromUnit.value;
+      let to = toUnit.value;
+
+      if (isNaN(temp)) {
+        result.textContent = "Result: --";
+        return;
+      }
+
+      let tempInCelsius;
+
+      // Step 1: Convert input to Celsius
+      switch (from) {
+        case "Celsius":
+          tempInCelsius = temp;
+          break;
+        case "Fahrenheit":
+          tempInCelsius = (temp - 32) * 5 / 9;
+          break;
+        case "Kelvin":
+          tempInCelsius = temp - 273.15;
+          break;
+      }
+
+      let finalTemp;
+
+      // Step 2: Convert Celsius to target unit
+      switch (to) {
+        case "Celsius":
+          finalTemp = tempInCelsius;
+          break;
+        case "Fahrenheit":
+          finalTemp = (tempInCelsius * 9 / 5) + 32;
+          break;
+        case "Kelvin":
+          finalTemp = tempInCelsius + 273.15;
+          break;
+      }
+
+      result.textContent = `Result: ${finalTemp.toFixed(2)}° ${to}`;
+    }
+
+    tempInput.addEventListener("input", convertTemperature);
+    fromUnit.addEventListener("change", convertTemperature);
+    toUnit.addEventListener("change", convertTemperature);
+  </script>
+</body>
+</html>
